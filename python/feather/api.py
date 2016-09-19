@@ -53,9 +53,11 @@ def read_dataframe(path, columns=None):
     data = {}
     names = []
     for i in range(reader.num_columns):
-        name, arr = reader.read_array(i)
-        data[name] = arr
-        names.append(name)
+        name = reader.get_column_name(i)
+        if (columns is None) or (name in columns):
+            name, arr = reader.read_array(i)
+            data[name] = arr
+            names.append(name)
 
     # TODO(wesm):
     return pd.DataFrame(data, columns=names)
